@@ -1,3 +1,4 @@
+<?php
 $servername = "localhost";
 
 // REPLACE with your Database name
