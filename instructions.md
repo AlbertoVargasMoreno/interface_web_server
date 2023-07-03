@@ -4,5 +4,5 @@
 use database.sql to create the DB
 
 ```bash
-mysql 
+mysql -u root -p < database.sql
 ```
