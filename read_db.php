@@ -44,22 +44,22 @@ $conn->close();
         <?php foreach ($rows as $index => $result_row): ?>
             <tr>
                 <td>
-                    <?php echo $result_row['id']; ?>
+                    <?= $result_row['id']; ?>
                 </td>
                 <td>
-                    <?php echo $result_row['sensor_names']; ?>
+                    <?= $result_row['sensor_names']; ?>
                 </td>
                 <td>
-                    <?php echo $result_row['temperature_value']; ?>
+                    <?= $result_row['temperature_value']; ?>
                 </td>
                 <td>
-                    <?php echo $result_row['heart_rate_value']; ?>
+                    <?= $result_row['heart_rate_value']; ?>
                 </td>
                 <td>
-                    <?php echo $result_row['oxygen_saturation_value']; ?>
+                    <?= $result_row['oxygen_saturation_value']; ?>
                 </td>
                 <td>
-                    <?php echo $result_row['reading_time']; ?>
+                    <?= $result_row['reading_time']; ?>
                 </td>
             </tr>
         <?php endforeach; ?>
