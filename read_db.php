@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html>
 <?php
 $servername = "localhost";
 
@@ -29,7 +27,12 @@ if ($result = $conn->query($sql)) {
     $result->free();
 }
 $conn->close();
+$temperature = json_encode(array_reverse(array_column($rows, 'temperature_value')), JSON_NUMERIC_CHECK);
+$heart_rate = json_encode(array_reverse(array_column($rows, 'heart_rate_value')), JSON_NUMERIC_CHECK);
+$reading_time = json_encode(array_reverse(array_column($rows, 'reading_time')), JSON_NUMERIC_CHECK);
 ?>
+<!DOCTYPE html>
+<html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -38,6 +41,25 @@ $conn->close();
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css">
   </head>
 <body>
+    <div>
+        <form>
+            <input type="hidden"
+             id="temperature-array" 
+             name="custId" 
+             value=<?= $temperature; ?>
+             >
+            <input type="hidden"
+             id="heart-rate-array"
+             name="custId" 
+             value=<?= $heart_rate; ?>
+             >
+            <input type="hidden"
+             id="reading-time-array" 
+             name="custId" 
+             value=<?= urlencode($reading_time); ?>
+             >
+        </form>
+    </div>
     <div class="container">
         <table
         data-toggle="table"
@@ -87,10 +109,14 @@ $conn->close();
             </tbody>
         </table>
     </div>
+    <div id="chart-temperature" class="container"></div>
+    <div id="chart-heart-rate" class="container"></div>
     <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
     <script src="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.js"></script>
     <script src="https://unpkg.com/bootstrap-table@1.22.1/dist/extensions/export/bootstrap-table-export.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="drawCharts.js"></script>
 </body>
 </html>
