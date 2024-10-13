@@ -1,11 +1,3 @@
-<?php
-// require 'read_db.php';
-// $result = read_vital_signs_history();
-// $temperature = $result['temperature'];
-// $heart_rate = $result['heart_rate'];
-// $reading_time = $result['reading_time'];
-// $rows = $result['rows'];
-?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -16,27 +8,9 @@
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.1/dist/bootstrap-table.min.css">
   </head>
 <body>
-    <div>
-        <form>
-            <input type="hidden"
-             id="temperature-array" 
-             name="custId" 
-             value=<?= $temperature; ?>
-             >
-            <input type="hidden"
-             id="heart-rate-array"
-             name="custId" 
-             value=<?= $heart_rate; ?>
-             >
-            <input type="hidden"
-             id="reading-time-array" 
-             name="custId" 
-             value=<?= urlencode($reading_time); ?>
-             >
-        </form>
-    </div>
     <div class="container">
         <table
+        id="vital-signs"
         data-toggle="table"
         data-show-columns="true"
         data-show-export="true"
@@ -51,36 +25,6 @@
                 </tr>
             </thead>
             <tbody>
-                <tr id="tr-id-1" class="tr-class-1" data-title="bootstrap table" data-object='{"key": "value"}'>
-                    <td id="td-id-1" class="td-class-1" data-title="bootstrap table">
-                        <?= $rows[0]['id']; ?>
-                    </td>
-                    <td data-value="526">
-                        <?= $rows[0]['sensor_names']; ?>
-                    </td>
-                    <td data-text="122">
-                        <?= $rows[0]['temperature_value']; ?>
-                    </td>
-                    <td data-i18n="Description">
-                        <?= $rows[0]['heart_rate_value']; ?>
-                    </td>
-                </tr>
-                <?php foreach ($rows as $index => $result_row): ?>
-                <tr id="tr-id-2" class="tr-class-2">
-                    <td id="td-id-2" class="td-class-2">
-                        <?= $result_row['id']; ?>
-                    </td>
-                    <td>
-                        <?= $result_row['sensor_names']; ?>
-                    </td>
-                    <td>
-                        <?= $result_row['temperature_value']; ?>
-                    </td>
-                    <td>
-                        <?= $result_row['heart_rate_value']; ?>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
             </tbody>
         </table>
     </div>

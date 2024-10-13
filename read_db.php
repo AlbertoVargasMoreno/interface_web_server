@@ -37,8 +37,4 @@ function read_vital_signs_history(): array  {
 }
 
 $result = read_vital_signs_history();
-$temperature = $result['temperature'];
-$heart_rate = $result['heart_rate'];
-$reading_time = $result['reading_time'];
-$rows = $result['rows'];
 echo json_encode($result);
