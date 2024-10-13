@@ -1,10 +1,10 @@
 <?php
-require 'read_db.php';
-$result = read_vital_signs_history();
-$temperature = $result['temperature'];
-$heart_rate = $result['heart_rate'];
-$reading_time = $result['reading_time'];
-$rows = $result['rows'];
+// require 'read_db.php';
+// $result = read_vital_signs_history();
+// $temperature = $result['temperature'];
+// $heart_rate = $result['heart_rate'];
+// $reading_time = $result['reading_time'];
+// $rows = $result['rows'];
 ?>
 <!DOCTYPE html>
 <html>
