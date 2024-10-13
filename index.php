@@ -5,14 +5,11 @@ use PHPMailer\PHPMailer\Exception;
 
 require 'vendor/autoload.php';
 
-$servername = "localhost";
-
-// REPLACE with your Database name
-$dbname = "db_esp32";
-// REPLACE with Database user
-$username = "root";
-// REPLACE with Database user password
-$password = "";
+$config = parse_ini_file("config.ini");
+$servername = $config['server'];
+$dbname     = $config['database_name'];
+$username   = $config['database_username'];
+$password   = $config['database_password'];
 
 // Keep this API Key value to be compatible with the ESP32 code provided in the project page. 
 // If you change this value, the ESP32 sketch needs to match
