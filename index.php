@@ -29,7 +29,8 @@ $sensor = test_input($_POST["sensor_names"]);
 $value1 = floatval( test_input($_POST["temperature"]) );
 $value2 = floatval( test_input($_POST["heart_rate"]) );
 $value3 = floatval( test_input($_POST["oxygen_saturation"]) );
-insert_sensors_readings($sensor, $value1, $value2, $value3);
+$dbResult = insert_sensors_readings($sensor, $value1, $value2, $value3);
+echo $dbResult;
 notify_critical_values([$value1, $value2, $value3]);
 
 
@@ -40,31 +41,34 @@ function test_input($data) {
     return $data;
 }
 
-function insert_sensors_readings($sensor, $value1, $value2, $value3) : void {
+function insert_sensors_readings($sensorName, $temperature, $heartRate, $oxygenSaturation) : string {
     $config = parse_ini_file("config.ini");
+    
     $servername = $config['server'];
     $dbname     = $config['database_name'];
     $username   = $config['database_username'];
     $password   = $config['database_password'];
     
-    // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
+    
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    } 
-
-    $sql = "INSERT INTO Vital_signs (sensor_names, temperature_value, heart_rate_value, oxygen_saturation_value)
-    VALUES ('" . $sensor . "', '" . $value1 . "', '" . $value2 . "', '" . $value3 . "')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
-    } 
-    else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        return "Connection failed: " . $conn->connect_error;
     }
 
+    $query = "INSERT INTO Vital_signs (sensor_names, temperature_value, heart_rate_value, oxygen_saturation_value) VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($query);
+    if ($stmt === false) {
+        return "Error preparing statement: " . $conn->error;
+    }
+
+    $stmt->bind_param("sddd", $sensorName, $temperature, $heartRate, $oxygenSaturation);
+    $result = '';
+    $result = $stmt->execute() ? "New record created successfully" : "Error: " . $stmt->error;
+
+    $stmt->close();
     $conn->close();
+
+    return $result;
 }
 
 function notify_critical_values($vital_signs) : void {
