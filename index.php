@@ -95,7 +95,7 @@ function sendEmail($to, $subject, $message, $from) {
         $mail->SMTPAuth     = true;
         $mail->Username     = $config['mail_username'];
         $mail->Password     = $config['mail_password'];
-        $mail->SMTPSecure   = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->SMTPSecure   = $config['mail_encryption'];
         $mail->Port         = $config['mail_port'];
 
         //Recipients
