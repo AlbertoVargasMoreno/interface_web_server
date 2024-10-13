@@ -1,4 +1,10 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
+
 $servername = "localhost";
 
 // REPLACE with your Database name
@@ -24,9 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $value1 = floatval( test_input($_POST["temperature"]) );
         $value2 = floatval( test_input($_POST["heart_rate"]) );
         $value3 = floatval( test_input($_POST["oxygen_saturation"]) );
-
+        
         notify_critical_values([$value1, $value2, $value3]);
-
+        
         // Create connection
         $conn = new mysqli($servername, $username, $password, $dbname);
         // Check connection
@@ -66,17 +72,48 @@ function notify_critical_values($vital_signs) : void {
     [$temperature, $heart_rate, $oxygen_saturation] = $vital_signs;
     $to = "vargasmorenoalberto@gmail.com";
     $subject = "ALERTA, signos vitales";
-    $headers = "From: webmaster@example.com";
+    $from = "webmaster@example.com";
     switch (true) {
         case ($temperature < low_temp):
             $msg = "ALERTA! La temperatura es muy baja, temperatura= {$temperature}";
-            mail($to,$subject,$msg,$headers);
+            sendEmail($to,$subject,$msg,$from);
             break;
         case ($temperature > high_temp):
             $msg = "ALERTA! La temperatura es muy alta, temperatura= {$temperature}";
-            mail($to,$subject,$msg,$headers);
+            sendEmail($to,$subject,$msg,$from);
             break;
         default:
             break;
     }
+}
+
+function sendEmail($to, $subject, $message, $from) {
+    $mail = new PHPMailer(true);
+    $config = parse_ini_file("config.ini");
+    try {
+        //Server settings
+        // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        $mail->isSMTP();
+        $mail->Host         = $config['mail_host'];
+        $mail->SMTPAuth     = true;
+        $mail->Username     = $config['mail_username'];
+        $mail->Password     = $config['mail_password'];
+        $mail->SMTPSecure   = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port         = $config['mail_port'];
+
+        //Recipients
+        $mail->setFrom($from, 'Mailer');
+        $mail->addAddress($to);
+
+        //Content
+        $mail->isHTML(true);                                  //Set email format to HTML
+        $mail->Subject = $subject;
+        $mail->Body    = 'This is the HTML message body <b>in bold!</b> ' . $message;
+        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+        $succesBool = $mail->send();
+        return $succesBool;
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }   
 }
