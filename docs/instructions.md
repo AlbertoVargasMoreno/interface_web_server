@@ -34,3 +34,13 @@ mail_username = "user@gmail.com"
 mail_password = "secret"
 mail_port = 465
 ```
+
+## Usage
+
+- Send an HTTP request to store into DB
+
+```Bash
+curl -X POST "http://localhost:8080/" \
+-H "Content-Type: application/x-www-form-urlencoded" \ 
+-d "api_key=tPmAT5Ab3j7F9&sensor_names=MAX3010&temperature=14.75&heart_rate=49.54&oxygen_saturation=1005.14"
+```
