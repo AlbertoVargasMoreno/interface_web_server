@@ -1,13 +1,13 @@
-# Installation
+## Installation
 
-## Create DB
+### Create DB
 use `database.sql` to create the DB
 
 ```bash
 mysql -u root -p < database.sql
 ```
 
-## Configure GMAIL to send emails from code
+### Configure GMAIL to send emails from code
 
 https://kinsta.com/es/blog/gmail-smtp-servidor/
 
@@ -15,9 +15,9 @@ https://support.google.com/mail/answer/7126229?visit_id=638254173760291571-10008
 
 https://aruljohn.com/blog/php-send-email/
 
-## Create Credentials File
+### Create Credentials File
 
-- Create a file named `config.ini` in parent folder, with the following content:
+- Create a file named `config.ini` in this folder, with the following content:
 
 ```ini
 [database]
@@ -35,12 +35,26 @@ mail_password = "secret"
 mail_port = 465
 ```
 
+### Install dependencies
+
+```bash
+composer install
+```
+
 ## Usage
 
-- Send an HTTP request to store into DB
+- Run
+
+```bash
+php -S localhost:8080
+```
+
+- Send an HTTP request to store data into DB
 
 ```Bash
 curl -X POST "http://localhost:8080/" \
 -H "Content-Type: application/x-www-form-urlencoded" \ 
 -d "api_key=tPmAT5Ab3j7F9&sensor_names=MAX3010&temperature=14.75&heart_rate=49.54&oxygen_saturation=1005.14"
 ```
+
+- To test this project, you can also reuse the postman collection in [docs/ESP32.postman_collection.json](docs/ESP32.postman_collection.json)
