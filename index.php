@@ -55,7 +55,7 @@ function insert_sensors_readings($sensorName, $temperature, $heartRate, $oxygenS
         return "Connection failed: " . $conn->connect_error;
     }
 
-    $query = "INSERT INTO Vital_signs (sensor_names, temperature_value, heart_rate_value, oxygen_saturation_value) VALUES (?, ?, ?, ?)";
+    $query = "INSERT INTO vital_signs (sensor_names, temperature_value, heart_rate_value, oxygen_saturation_value) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
     if ($stmt === false) {
         return "Error preparing statement: " . $conn->error;

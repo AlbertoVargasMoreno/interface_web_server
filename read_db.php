@@ -13,7 +13,7 @@ function read_vital_signs_history(): array  {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT * FROM Vital_signs";
+    $sql = "SELECT * FROM vital_signs";
 
     $rows = [];
     if ($result = $conn->query($sql)) {
